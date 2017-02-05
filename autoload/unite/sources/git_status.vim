@@ -34,7 +34,7 @@ function! s:git_status_to_unite(val)
   let path = empty(move_dest) ? rest : move_dest
   let index_status_symbol = s:status_symbol_map[index_status]
   let work_tree_status_symbol = s:status_symbol_map[work_tree_status]
-  let word = '[' . index_status_symbol . work_tree_status_symbol. '] ' . rest
+  let word = '[' . index_status_symbol . work_tree_status_symbol . '] ' . rest
   return {
         \	'source': 'git_status',
         \	'kind': 'file',
