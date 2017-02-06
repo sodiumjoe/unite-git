@@ -17,7 +17,7 @@ let s:source = {
 
 let s:status_symbol_map = {
       \ ' ': ' ',
-      \ 'M': '~',
+      \ 'M': 'M',
       \ 'A': '+',
       \ 'D': '-',
       \ 'R': '→',
@@ -34,7 +34,7 @@ function! s:git_status_to_unite(val)
   let path = empty(move_dest) ? rest : move_dest
   let index_status_symbol = s:status_symbol_map[index_status]
   let work_tree_status_symbol = s:status_symbol_map[work_tree_status]
-  let word = '[' . index_status_symbol . work_tree_status_symbol . '] ' . rest
+  let word = index_status_symbol . work_tree_status_symbol . ' ' . rest
   return {
         \	'source': 'git_status',
         \	'kind': 'file',
@@ -52,18 +52,18 @@ endfunction
 function! s:source.hooks.on_syntax(args, context)
 
   if !hlexists('UniteGitStatusIndexSymbol')
-		highlight UniteGitStatusIndexSymbol ctermfg=2 cterm=bold
+		highlight link UniteGitStatusIndexSymbol Statement
 	endif
 
   if !hlexists('UniteGitStatusWorkingTreeSymbol')
 		highlight link UniteGitStatusWorkingTreeSymbol Error
 	endif
 
-  syntax match UniteGitStatusIndexSymbol /\[\zs./
-        \ contained containedin=uniteSource__uniteGitStatus
+  syntax match UniteGitStatusIndexSymbol /^\s\s\s../
+        \ containedin=uniteSource__uniteGitStatus
 
-  syntax match UniteGitStatusWorkingTreeSymbol /.\ze\]/
-        \ contained containedin=uniteSource__uniteGitStatus
+  syntax match UniteGitStatusWorkingTreeSymbol /^\s\s\s.\zs./
+        \ contained containedin=UniteGitStatusIndexSymbol
 
 endfunction
 
