@@ -29,7 +29,8 @@ let s:status_symbol_map = {
 function! s:git_status_to_unite(val)
   let index_status = a:val[0]
   let work_tree_status = a:val[1]
-  let rest = strpart(a:val, 3)
+  let raw_rest = strpart(a:val, 3)
+  let rest = substitute(raw_rest, '"', '', 'g')
   let move_dest = matchstr(rest, '-> \zs.\+\ze')
   let path = empty(move_dest) ? rest : move_dest
   let index_status_symbol = s:status_symbol_map[index_status]
